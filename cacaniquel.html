@@ -25,9 +25,10 @@
       margin: 0;
       padding: 0;
       width: 100%;
-      height: 100%;
-      position: fixed;
-      overflow: hidden;
+      min-height: 100vh; /* permite o conteúdo crescer na vertical */
+      height: auto;
+      position: relative; /* não fixa o viewport — deixa o navegador gerenciar altura */
+      overflow: auto; /* permite rolagem quando necessário */
       overscroll-behavior: none;
       -webkit-overflow-scrolling: touch;
     }
@@ -244,25 +245,25 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-red-900 via-red-800 to-gray-900 flex items-center justify-center overflow-hidden">
+<body class="bg-gradient-to-br from-red-900 via-red-800 to-gray-900 flex items-center justify-center">
 
   <!-- Container principal do jogo -->
-  <div class="relative w-full h-full flex flex-col items-center justify-center overflow-hidden p-2 sm:p-4">
+  <div class="relative w-full h-auto min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
     
     <!-- Efeito de moedas caindo (Jackpot) -->
     <div id="coin-container" class="absolute inset-0 pointer-events-none z-50"></div>
     
     <!-- Wrapper com tamanho máximo -->
-    <div class="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl h-full max-h-screen flex flex-col">
+      <div class="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl h-auto min-h-screen flex flex-col">
       
       <!-- Efeito de Jackpot -->
       <div id="jackpot-flash" class="absolute inset-0 bg-yellow-400 opacity-0 rounded-3xl z-10 pointer-events-none"></div>
       
       <!-- Moldura principal estilo Vegas -->
-      <div class="chrome-frame rounded-3xl p-1 sm:p-2 shadow-2xl w-full h-full relative mobile-landscape-adjust overflow-hidden">
+  <div class="chrome-frame rounded-3xl p-1 sm:p-2 shadow-2xl w-full h-auto relative mobile-landscape-adjust">
         
         <!-- Fundo interno vermelho luxuoso -->
-        <div class="bg-gradient-to-b from-red-900 via-red-800 to-black rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 w-full h-full border-4 border-yellow-600/50 relative overflow-hidden">
+  <div class="bg-gradient-to-b from-red-900 via-red-800 to-black rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 w-full h-auto border-4 border-yellow-600/50 relative overflow-hidden">
         
         <!-- Luzes decorativas no topo -->
         <div class="absolute top-0 left-0 right-0 flex justify-around py-1 sm:py-2 z-0">
