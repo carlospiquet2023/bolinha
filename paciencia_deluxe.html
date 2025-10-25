@@ -627,6 +627,12 @@
                 cardEl.dataset.source = 'waste';
                 cardEl.dataset.index = gameState.waste.length - 1;
                 cardEl.addEventListener('click', handleCardClick);
+                
+                // Verifica se está selecionada
+                if (gameState.selected && gameState.selected.source === 'waste' && gameState.selected.index === gameState.waste.length - 1) {
+                    cardEl.classList.add('selected');
+                }
+                
                 elements.wastePile.appendChild(cardEl);
             } else {
                 elements.wastePile.appendChild(createPlaceholder(''));
@@ -645,6 +651,12 @@
                     cardEl.dataset.source = 'foundation';
                     cardEl.dataset.pile = index;
                     cardEl.addEventListener('click', () => handlePileClick('foundation', index));
+                    
+                    // Verifica se está selecionada
+                    if (gameState.selected && gameState.selected.source === 'foundation' && gameState.selected.pile === index) {
+                        cardEl.classList.add('selected');
+                    }
+                    
                     elements.foundations[index].appendChild(cardEl);
                 } else {
                     const placeholder = createPlaceholder(SUITS[index]);
@@ -680,6 +692,11 @@
                         
                         if (card.faceUp) {
                             cardEl.addEventListener('click', handleCardClick);
+                        }
+                        
+                        // Verifica se está selecionada
+                        if (gameState.selected && gameState.selected.source === 'tableau' && gameState.selected.pile === pileIndex && gameState.selected.index === cardIndex) {
+                            cardEl.classList.add('selected');
                         }
                         
                         pileEl.appendChild(cardEl);
