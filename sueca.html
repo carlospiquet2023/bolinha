@@ -735,6 +735,174 @@
                 font-size: 0.8em;
                 padding: 5px 0;
             }
+
+            .game-setup {
+                margin-top: 10px;
+            }
+
+            .setup-panel {
+                padding: 12px;
+            }
+
+            .setup-panel h3 {
+                font-size: 1em;
+            }
+
+            .setup-options {
+                gap: 10px;
+            }
+
+            .player-name-input input {
+                padding: 5px 8px;
+                font-size: 0.8em;
+                width: 150px;
+            }
+
+            .radio-group {
+                gap: 8px;
+            }
+
+            .radio-option {
+                font-size: 0.8em;
+                gap: 5px;
+            }
+
+            .start-game-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+
+            .match-score {
+                font-size: 0.8em;
+                margin-top: 5px;
+            }
+        }
+
+        /* Configuração do Jogo */
+        .game-setup {
+            margin-bottom: 20px;
+        }
+
+        .setup-panel {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+            border: 3px solid #FFD700;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+            text-align: center;
+        }
+
+        .setup-panel h3 {
+            font-size: 1.5em;
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .setup-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .player-name-input {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .player-name-input label {
+            font-size: 1.1em;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .player-name-input input {
+            padding: 10px 15px;
+            font-size: 1em;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-align: center;
+            width: 250px;
+        }
+
+        .player-name-input input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .game-mode-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .game-mode-selection > label {
+            font-size: 1.1em;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1em;
+            color: #fff;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .radio-option:hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .radio-option input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .start-game-btn {
+            padding: 12px 30px;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        /* Placar das Partidas (para modo melhor de 3) */
+        .match-score {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid #FFD700;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #FFD700;
+            text-align: center;
+        }
+
+        .match-score .match-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .match-wins {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
@@ -746,18 +914,24 @@
 
     <div class="game-container">
         <!-- Placar -->
-        <div class="scoreboard">
+        <div class="scoreboard" id="scoreboard" style="display: none;">
             <div class="team-score">
                 <h2>🏆 Equipe 1 🏆</h2>
                 <div class="team-players">
                     <div class="player-info">
-                        <span class="player-name">Antonio Carlos (Você)</span>
+                        <span class="player-name" id="playerNameDisplay">Antonio Carlos (Você)</span>
                     </div>
                     <div class="player-info">
                         <span class="player-name">Bruno (IA)</span>
                     </div>
                 </div>
                 <div class="score-display" id="team1Score">0</div>
+                <div class="match-score" id="team1MatchScore" style="display: none;">
+                    <div class="match-title">Partidas Vencidas</div>
+                    <div class="match-wins">
+                        <span id="team1Wins">0</span>
+                    </div>
+                </div>
             </div>
 
             <div class="team-score">
@@ -771,16 +945,22 @@
                     </div>
                 </div>
                 <div class="score-display" id="team2Score">0</div>
+                <div class="match-score" id="team2MatchScore" style="display: none;">
+                    <div class="match-title">Partidas Vencidas</div>
+                    <div class="match-wins">
+                        <span id="team2Wins">0</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Mensagens -->
-        <div class="message-area">
+        <div class="message-area" id="messageArea" style="display: none;">
             <div class="game-message" id="gameMessage">Clique em "Novo Jogo" para começar!</div>
         </div>
 
         <!-- Mesa de Jogo -->
-        <div class="table-container">
+        <div class="table-container" id="tableContainer" style="display: none;">
             <div class="trump-display">
                 <h3>Trunfo</h3>
                 <div id="trumpDisplay"></div>
@@ -821,9 +1001,38 @@
             </div>
         </div>
 
+        <!-- Configuração do Jogo -->
+        <div class="game-setup" id="gameSetup" style="display: block;">
+            <div class="setup-panel">
+                <h3>🎮 Bem-vindo ao Sueca Premium!</h3>
+                <p style="color: #FFD700; margin-bottom: 20px; font-size: 1.1em;">Configure suas preferências e o jogo iniciará automaticamente</p>
+                <div class="setup-options">
+                    <div class="player-name-input">
+                        <label for="playerName">Seu Nome:</label>
+                        <input type="text" id="playerName" placeholder="Digite seu nome" maxlength="20">
+                    </div>
+                    <div class="game-mode-selection">
+                        <label>Modo de Jogo:</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="gameMode" value="classic" checked>
+                                <span>Clássico (primeira a 4 pontos)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gameMode" value="bestOfThree">
+                                <span>Melhor de 3 (vence quem ganhar 2 partidas)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn start-game-btn" onclick="startGameWithConfig()">🎲 Iniciar Jogo</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Controles -->
-        <div class="controls">
-            <button class="btn" onclick="newGame()">🎲 Novo Jogo</button>
+        <div class="controls" id="gameControls" style="display: none;">
+            <button class="btn" onclick="newGame()">🔄 Reiniciar Partida</button>
+            <button class="btn" onclick="showSetup()">⚙️ Configurações</button>
             <button class="btn" onclick="toggleRules()">📋 Regras</button>
         </div>
 
@@ -848,11 +1057,16 @@
         const SUITS = ['♠', '♥', '♦', '♣'];
         const SUIT_NAMES = ['Espadas', 'Copas', 'Ouros', 'Paus'];
         const RANKS = ['A', '7', 'K', 'J', 'Q', '6', '5', '4', '3', '2'];
+        
+        // Configurações globais
+        let playerName = 'Antonio Carlos';
+        let gameMode = 'classic'; // 'classic' ou 'bestOfThree'
+        let matchWins = [0, 0]; // Vitórias das partidas no modo melhor de 3
         const RANK_VALUES = { 'A': 11, '7': 10, 'K': 4, 'J': 3, 'Q': 2, '6': 0, '5': 0, '4': 0, '3': 0, '2': 0 };
         const RANK_ORDER = { 'A': 8, '7': 7, 'K': 6, 'J': 5, 'Q': 4, '6': 3, '5': 2, '4': 1, '3': 0, '2': -1 };
 
-        const PLAYERS = ['Antonio', 'Carlos', 'Bruno', 'Felipe'];
-        const TEAM1 = [0, 2]; // Antonio e Bruno
+        const PLAYERS = ['Player', 'Carlos', 'Bruno', 'Felipe']; // Player será substituído pelo nome escolhido
+        const TEAM1 = [0, 2]; // Player e Bruno
         const TEAM2 = [1, 3]; // Carlos e Felipe
 
         let deck = [];
@@ -957,7 +1171,7 @@
             const startAngle = -(maxAngle / 2);
             
             hands[0].forEach((card, index) => {
-                const canPlay = waitingForPlayer && isValidPlay(card, 0);
+                const canPlay = waitingForPlayer && currentPlayer === 0 && isValidPlay(card, 0);
                 const cardEl = renderCard(card, false, canPlay, () => playCard(0, index));
                 
                 // Posicionamento em leque
@@ -1011,7 +1225,13 @@
         // Atualizar labels dos jogadores
         function updatePlayerLabels() {
             PLAYERS.forEach((name, idx) => {
-                const label = document.getElementById(`label${name === 'Antonio' ? 'Antonio' : name}`);
+                let labelId;
+                if (idx === 0) {
+                    labelId = 'labelAntonio'; // Mantém o ID original do HTML
+                } else {
+                    labelId = `label${name}`;
+                }
+                const label = document.getElementById(labelId);
                 if (currentPlayer === idx && gameInProgress) {
                     label.classList.add('active');
                 } else {
@@ -1258,26 +1478,78 @@
             document.getElementById('team1Score').textContent = team1Score;
             document.getElementById('team2Score').textContent = team2Score;
             
-            // Verificar vitória
-            if (team1Score >= 4) {
+            // Verificar vitória baseada no modo de jogo
+            const winCondition = gameMode === 'bestOfThree' ? 2 : 4;
+            
+            if (team1Score >= winCondition) {
                 setTimeout(() => {
-                    showMessage('🏆 EQUIPE 1 VENCEU O JOGO! 🏆');
-                    setTimeout(() => {
-                        if (confirm('Equipe 1 venceu! Jogar novamente?')) {
-                            resetGame();
-                            newGame();
+                    if (gameMode === 'bestOfThree') {
+                        // Vitória de partida no modo melhor de 3
+                        matchWins[0]++;
+                        updateMatchScore();
+                        
+                        if (matchWins[0] >= 2) {
+                            // Vitória do campeonato
+                            showMessage(`🏆 ${playerName} E BRUNO VENCERAM O CAMPEONATO! 🏆`);
+                            setTimeout(() => {
+                                if (confirm(`${playerName} e Bruno venceram o campeonato melhor de 3! Jogar novamente?`)) {
+                                    resetMatch();
+                                    newGame();
+                                }
+                            }, 1000);
+                        } else {
+                            // Próxima partida
+                            showMessage(`🏆 EQUIPE 1 VENCEU A PARTIDA! Placar: ${matchWins[0]} x ${matchWins[1]}`);
+                            setTimeout(() => {
+                                resetGame();
+                                newGame();
+                            }, 3000);
                         }
-                    }, 1000);
+                    } else {
+                        // Modo clássico
+                        showMessage('🏆 EQUIPE 1 VENCEU O JOGO! 🏆');
+                        setTimeout(() => {
+                            if (confirm('Equipe 1 venceu! Jogar novamente?')) {
+                                resetGame();
+                                newGame();
+                            }
+                        }, 1000);
+                    }
                 }, 2000);
-            } else if (team2Score >= 4) {
+            } else if (team2Score >= winCondition) {
                 setTimeout(() => {
-                    showMessage('🏆 EQUIPE 2 VENCEU O JOGO! 🏆');
-                    setTimeout(() => {
-                        if (confirm('Equipe 2 venceu! Jogar novamente?')) {
-                            resetGame();
-                            newGame();
+                    if (gameMode === 'bestOfThree') {
+                        // Vitória de partida no modo melhor de 3
+                        matchWins[1]++;
+                        updateMatchScore();
+                        
+                        if (matchWins[1] >= 2) {
+                            // Vitória do campeonato
+                            showMessage('🏆 CARLOS E FELIPE VENCERAM O CAMPEONATO! 🏆');
+                            setTimeout(() => {
+                                if (confirm('Carlos e Felipe venceram o campeonato melhor de 3! Jogar novamente?')) {
+                                    resetMatch();
+                                    newGame();
+                                }
+                            }, 1000);
+                        } else {
+                            // Próxima partida
+                            showMessage(`🏆 EQUIPE 2 VENCEU A PARTIDA! Placar: ${matchWins[0]} x ${matchWins[1]}`);
+                            setTimeout(() => {
+                                resetGame();
+                                newGame();
+                            }, 3000);
                         }
-                    }, 1000);
+                    } else {
+                        // Modo clássico
+                        showMessage('🏆 EQUIPE 2 VENCEU O JOGO! 🏆');
+                        setTimeout(() => {
+                            if (confirm('Equipe 2 venceu! Jogar novamente?')) {
+                                resetGame();
+                                newGame();
+                            }
+                        }, 1000);
+                    }
                 }, 2000);
             } else {
                 setTimeout(() => {
@@ -1296,12 +1568,13 @@
             dealCards();
             setTrump();
             renderTrump();
-            renderHands();
             
             gameInProgress = true;
             waitingForPlayer = true;
+            
+            renderHands();
             updatePlayerLabels();
-            showMessage('Nova rodada! Antonio Carlos começa.');
+            showMessage(`Nova rodada! ${playerName} começa.`);
         }
 
         // Novo jogo
@@ -1331,8 +1604,71 @@
             panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Inicializar
-        showMessage('Bem-vindo ao Sueca Premium! Clique em "Novo Jogo" para começar.');
+        // Iniciar jogo com configurações
+        function startGameWithConfig() {
+            const nameInput = document.getElementById('playerName');
+            const selectedMode = document.querySelector('input[name="gameMode"]:checked').value;
+            
+            // Validar nome
+            if (nameInput.value.trim() === '') {
+                alert('Por favor, digite seu nome!');
+                nameInput.focus();
+                return;
+            }
+            
+            // Configurar jogo
+            playerName = nameInput.value.trim();
+            gameMode = selectedMode;
+            PLAYERS[0] = playerName;
+            
+            // Atualizar interface
+            document.getElementById('playerNameDisplay').textContent = `${playerName} (Você)`;
+            document.getElementById('labelAntonio').textContent = playerName;
+            
+            // Mostrar/esconder elementos
+            document.getElementById('gameSetup').style.display = 'none';
+            document.getElementById('scoreboard').style.display = 'grid';
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('messageArea').style.display = 'block';
+            document.getElementById('gameControls').style.display = 'flex';
+            
+            // Configurar modo de jogo
+            if (gameMode === 'bestOfThree') {
+                document.getElementById('team1MatchScore').style.display = 'block';
+                document.getElementById('team2MatchScore').style.display = 'block';
+                updateMatchScore();
+            }
+            
+            // Iniciar primeira partida
+            newGame();
+        }
+
+        // Mostrar configurações
+        function showSetup() {
+            document.getElementById('gameSetup').style.display = 'block';
+            document.getElementById('scoreboard').style.display = 'none';
+            document.getElementById('tableContainer').style.display = 'none';
+            document.getElementById('messageArea').style.display = 'none';
+            document.getElementById('gameControls').style.display = 'none';
+            
+            // Resetar jogo completamente
+            resetMatch();
+        }
+
+        // Atualizar placar das partidas
+        function updateMatchScore() {
+            if (gameMode === 'bestOfThree') {
+                document.getElementById('team1Wins').textContent = matchWins[0];
+                document.getElementById('team2Wins').textContent = matchWins[1];
+            }
+        }
+
+        // Resetar partidas (para modo melhor de 3)
+        function resetMatch() {
+            matchWins = [0, 0];
+            resetGame();
+            updateMatchScore();
+        }
     </script>
 </body>
 </html>
